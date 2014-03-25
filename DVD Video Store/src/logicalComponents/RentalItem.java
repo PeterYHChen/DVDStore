@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 public class RentalItem {
    private int custId;
    private int id;
+   private String name;
    private java.util.Date rentDate;
    private double fee;
 
@@ -26,10 +27,11 @@ public class RentalItem {
     * @param customerId is the quantity requested by the customer
     * @return reference to RentalItem instance
     */
-   public RentalItem(int customerId, int dvdId) {
-      setCustId(customerId);
-      setId(dvdId);
-      setRentDate(getCurrentDate());
+   public RentalItem(int customerId, int dvdId, String dvdName) {
+      custId = customerId;
+      id = dvdId;
+      rentDate = getCurrentDate();
+      name = dvdName;
       fee = 0;
    }
 
@@ -37,15 +39,14 @@ public class RentalItem {
     * @return the fee when the DVD is late
     */
    public double getFee() {
-      // fee = getCurrentDate() - rentDate;
+      int days = (int) (getCurrentDate().getTime() - rentDate.getTime()) / 1000
+            / 60 / 60 / 24;
+      fee = days * 0.1;
       return fee;
    }
 
    private Date getCurrentDate() {
       Calendar c = new GregorianCalendar();
-      c.set(Calendar.HOUR_OF_DAY, 0); // anything 0 - 23
-      c.set(Calendar.MINUTE, 0);
-      c.set(Calendar.SECOND, 0);
       return c.getTime();
    }
 
@@ -89,5 +90,24 @@ public class RentalItem {
     */
    public void setRentDate(java.util.Date rentDate) {
       this.rentDate = rentDate;
+   }
+
+   /**
+    * @return the name
+    */
+   public String getName() {
+      return name;
+   }
+
+   /**
+    * @param name the name to set
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
+
+public String toString() {
+      return "Customer id: " + custId + "\nDVD id: " + id + "\nDate : "
+            + rentDate;
    }
 }

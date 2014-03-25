@@ -10,14 +10,14 @@ package logicalComponents;
 
 import java.util.ArrayList;
 
-public class DVDSaleList {
+public class SaleList {
    private ArrayList<SaleItem> saleItemList;
 
    /**
     * Constructor
     * @return reference to DVDSaleList item
     */
-   public DVDSaleList() {
+   public SaleList() {
       saleItemList = new ArrayList<SaleItem>();
    }
 
@@ -40,8 +40,14 @@ public class DVDSaleList {
     * @param desiredQuantity is the quantity requested by the customer
     * @param saleType indicates whether a sale or rent is occuring
     */
-   public void addSaleItem(int dvdId, int desiredQuantity, int saleType) {
-      SaleItem saleItem = new SaleItem(dvdId, desiredQuantity, saleType);
-      saleItemList.add(saleItem);
+   public void addSaleItem(SaleItem item) {
+      saleItemList.add(new SaleItem(item));
+   }
+
+   public boolean checkSaleItemDuplicate(String saleItemName) {
+      for (SaleItem item : saleItemList)
+         if (item.getName().equalsIgnoreCase(saleItemName))
+            return true;
+      return false;
    }
 }

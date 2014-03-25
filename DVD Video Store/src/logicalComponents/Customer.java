@@ -11,46 +11,56 @@ package logicalComponents;
 
 public class Customer {
 
-   private int id;
-   private String name;
+	private int id;
+	private String name;
 
-   /**
-    * Constructor
-    * @param custName is the name of the registered customer
-    * @param custId is the unique id of the registered customer
-    * @return reference to a customer object
-    */
-   public Customer(String custName) {
-      id = 0;
-      name = custName;
-   }
+	/**
+	 * Constructor
+	 * 
+	 * @param custName
+	 *            is the name of the registered customer
+	 * @param custId
+	 *            is the unique id of the registered customer
+	 * @return reference to a customer object
+	 */
+	public Customer() {
+		id = 0;
+		name = "";
+	}
 
-   /**
-    * @return the unique id of the customer
-    */
-   public int getId() {
-      return id;
-   }
+	public Customer(Customer customer) {
+		id = customer.getId();
+		name = customer.getName();
+	}
 
-   /**
-    * @param custId is the unique id of the registered customer
-    */
-   public void setId(int custId) {
-      id = custId;
-   }
+	/**
+	 * @return the unique id of the customer
+	 */
+	public int getId() {
+		return id;
+	}
 
-   /**
-    * @return name of the customer
-    */
-   public String getName() {
-      return name;
-   }
+	/**
+	 * @param custId
+	 *            is the unique id of a registered customer
+	 */
+	public void setId(int customerId) {
+		id = customerId;
+	}
 
-   /**
-    * @param custName is the name of the registered customer
-    */
-   public void setName(String custName) {
-      name = custName;
-   }
+	/**
+	 * @return name of the customer
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param custName
+	 *            is the name of the registered customer
+	 */
+	public void setName(String customerName) {
+		name = customerName;
+	}
 
 }

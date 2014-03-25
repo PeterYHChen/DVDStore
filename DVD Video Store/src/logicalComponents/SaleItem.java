@@ -10,18 +10,35 @@ package logicalComponents;
 
 public class SaleItem {
    private int id;
+   private String name;
    private int quantity;
    private int type;
 
-   /**
+   public SaleItem() {
+      id = 0;
+      name = "";
+      quantity = 0;
+      type = 0;
+   }
+
+public SaleItem(SaleItem item) {
+      id = item.getId();
+      name = item.getName();
+      quantity = item.getQuantity();
+      type = item.getType();
+
+   }
+
+/**
     * Constructor
     * @param dvdId is the unique id assigned to the DVD
     * @param desiredQuantity is the quantity requested by the customer
     * @param saleType indicates whether a sale or rent is occuring
     * @return reference to SaleItem instance
     */
-   public SaleItem(int dvdId, int desiredQuantity, int saleType) {
+   public SaleItem(int dvdId, String dvdName, int desiredQuantity, int saleType) {
       id = dvdId;
+      name = dvdName;
       quantity = desiredQuantity;
       type = saleType;
    }
@@ -41,6 +58,20 @@ public class SaleItem {
    }
 
    /**
+    * @return the name
+    */
+   public String getName() {
+      return name;
+   }
+
+/**
+    * @param name the name to set
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
+
+/**
     * @return the quantity
     */
    public int getQuantity() {
@@ -66,6 +97,15 @@ public class SaleItem {
     */
    public void setType(int type) {
       this.type = type;
+   }
+
+   public String toString() {
+      if (type == Sale.BUY)
+         return "Item name: " + name + "\nQuantity : " + quantity
+               + "\n  Type   : Buy\n";
+      else
+         return "Item name: " + name + "\nQuantity : " + quantity
+               + "\n  Type   : Rent\n";
    }
 
 }

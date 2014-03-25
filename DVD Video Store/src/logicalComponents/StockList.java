@@ -12,40 +12,44 @@ package logicalComponents;
 import java.util.ArrayList;
 
 public class StockList {
-   private ArrayList<DVD> dvdStockList;
+	private ArrayList<DVD> dvdStockList;
 
-   /**
-    * Constructor
-    * @return reference to a Stocklist object
-    */
-   public StockList() {
-      dvdStockList = new ArrayList<DVD>();
-   }
+	/**
+	 * Constructor
+	 * 
+	 * @return reference to a Stocklist object
+	 */
+	public StockList() {
+		dvdStockList = new ArrayList<DVD>();
+	}
 
-   /**
-    * @return the size of the DVD list
-    */
-   public int size() {
-      return dvdStockList.size();
-   }
+	/**
+	 * @return the size of the DVD list
+	 */
+	public int size() {
+		return dvdStockList.size();
+	}
 
-   /**
-    * @param index is the location of the DVD item
-    * @return reference to the DVD instance
-    */
-   public DVD getStockItem(int index) {
-      return dvdStockList.get(index);
-   }
+	/**
+	 * @param index
+	 *            is the location of the DVD item
+	 * @return reference to the DVD instance
+	 */
+	public DVD getStockItem(int index) {
+		return dvdStockList.get(index);
+	}
 
-   /**
-    * @param id is the unique id of the DVD
-    * @param name is the name of the DVD
-    * @param quantity is the number of the DVD in stock
-    * @param cost is the cost of the DVD
-    */
-   public void stockDVD(int id, double cost, String name, int quantity) {
-      DVD dvd = new DVD(id, name, quantity, cost);
-      dvdStockList.add(dvd);
-   }
+	/**
+	 * @param dvd
+	 *            is the dvd being stored
+	 * @return the dvd which was added
+	 */
+	public void add(DVD dvd) {
+		dvdStockList.add(new DVD(dvd));
+	}
+
+	public void clear() {
+		dvdStockList.clear();
+	}
 
 }

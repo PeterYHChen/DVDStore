@@ -14,11 +14,11 @@ public class Sale {
    final static int BUY = 1;
    final static int RENT = 2;
 
-   private int customerId;
+   private int custId;
    private double totalDeposit;
    private double totalCost;
    private double total;
-   private DVDSaleList dvdSaleList;
+   private SaleList dvdSaleList;
 
    /**
     * Constructor
@@ -26,52 +26,52 @@ public class Sale {
     * @return reference to Sale instance
     */
    public Sale(int custId) {
-      customerId = custId;
-      dvdSaleList = new DVDSaleList();
-   }
-
-   /**
-    * @param dvdId unique id associated with each dvd
-    * @param desiredQuantity purchase quantity desired from customer
-    * @param saleType is either buy or rent
-    */
-   public void addDVD(int dvdId, int desiredQuantity, int saleType) {
-      dvdSaleList.addSaleItem(dvdId, desiredQuantity, saleType);
-   }
-
-   /**
-    * @return the DVD Sale List associated with this sale
-    */
-   public DVDSaleList getSaleList() {
-      return dvdSaleList;
+      this.custId = custId;
+      dvdSaleList = new SaleList();
    }
 
    /**
     * @return customer id associated with this sale
     */
-   public int getCustomerId() {
-      return customerId;
+   public int getCustId() {
+      return custId;
    }
 
-   /**
+/**
+    * @return the DVD Sale List associated with this sale
+    */
+   public SaleList getSaleList() {
+      return dvdSaleList;
+   }
+
+/**
     * @return the total of the purchase including rented/bought dvds
     */
    public double getTotal() {
-      return total * 1.15;
+      return total * 1.15 + totalDeposit;
    }
 
-   /**
+/**
     * @param cost is how much the dvd costs in terms of dollars
     * @param saleType indicates whether the DVD is being rented or bought
     */
-   public void updateTotal(double cost, int saleType) {
-      if (saleType == RENT) {
+   public void updateTotal(double cost, SaleItem saleItem) {
+      if (saleItem.getType() == RENT) {
          totalDeposit += cost;
          totalCost += cost * 0.10;
       } else {
-         totalCost += cost;
+         totalCost += cost * saleItem.getQuantity();
       }
-      total = totalCost + totalDeposit;
+      total = totalCost;
+   }
+
+/**
+    * @param dvdId unique id associated with each dvd
+    * @param desiredQuantity purchase quantity desired from customer
+    * @param saleType is either buy or rent
+    */
+   public void addDVD(SaleItem item) {
+      dvdSaleList.addSaleItem(item);
    }
 
    /**
@@ -80,5 +80,9 @@ public class Sale {
     */
    public double completePayment(double amount) {
       return amount - total * 1.15;
+   }
+
+   public boolean checkSaleItemDuplicate(String name) {
+      return dvdSaleList.checkSaleItemDuplicate(name);
    }
 }

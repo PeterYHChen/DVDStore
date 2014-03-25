@@ -10,9 +10,9 @@
 package logicalComponents;
 
 public class ReturnSale {
-   int customerId;
-   double total;
-   ReturnList returnList;
+   private int custId;
+   private double total;
+   private ReturnList returnList;
 
    /**
     * Constructor
@@ -21,23 +21,16 @@ public class ReturnSale {
     * @return reference to RentalItem instance
     */
    public ReturnSale(int custId) {
-      customerId = custId;
+      this.custId = custId;
       returnList = new ReturnList();
-   }
-
-   /**
-    * @param dvdId is the unique id assigned to the DVD
-    */
-   public void returnDVD(int dvdId) {
-      returnList.addReturnDVD(dvdId);
    }
 
    /**
     * @param dvdId is the unique id assigned to the DVD
     * @return reference to RentalItem instance
     */
-   public int getCustomerId() {
-      return customerId;
+   public int getCustId() {
+      return custId;
    }
 
    /**
@@ -52,14 +45,6 @@ public class ReturnSale {
     * @param dvdId is the unique id assigned to the DVD
     * @return reference to RentalItem instance
     */
-   public void updateTotal(double fee) {
-      total += fee;
-   }
-
-   /**
-    * @param dvdId is the unique id assigned to the DVD
-    * @return reference to RentalItem instance
-    */
    public double getTotal() {
       return total;
    }
@@ -68,7 +53,28 @@ public class ReturnSale {
     * @param dvdId is the unique id assigned to the DVD
     * @return reference to RentalItem instance
     */
+   public void updateTotal(double fee) {
+      total += fee;
+   }
+
+/**
+    * @param dvdId is the unique id assigned to the DVD
+    */
+   public void addReturnDVD(int dvdId) {
+      returnList.addReturnDVD(dvdId);
+   }
+
+/**
+    * @param dvdId is the unique id assigned to the DVD
+    * @return reference to RentalItem instance
+    */
    public double completePayment(double amount) {
       return amount - total;
+   }
+
+   public boolean checkReturnSaleItemDuplicate(int dvdId) {
+      if (dvdId == 0)
+         return false;
+      return returnList.checkSaleItemDuplicate(dvdId);
    }
 }

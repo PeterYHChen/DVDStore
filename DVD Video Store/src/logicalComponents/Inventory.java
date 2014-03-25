@@ -11,10 +11,10 @@
 
 package logicalComponents;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Inventory {
-   private HashMap<Integer, DVD> dvdInventory;
+   private ArrayList<DVD> dvdInventory;
    int numOfDVD;
 
    /**
@@ -22,21 +22,60 @@ public class Inventory {
     * @return reference to a Inventory object
     */
    public Inventory() {
-      dvdInventory = new HashMap<Integer, DVD>();
+      dvdInventory = new ArrayList<DVD>();
       numOfDVD = 0;
    }
 
-   /**
+   public int size() {
+      return dvdInventory.size();
+   }
+
+   public int getId(int index) {
+      return dvdInventory.get(index).getId();
+   }
+
+public String getName(int index) {
+      return dvdInventory.get(index).getName();
+   }
+
+public int getQuantity(int index) {
+      return dvdInventory.get(index).getQuantity();
+   }
+
+/**
+    * @param dvdId is the unique id of the DVD
+    */
+   public double getCost(int index) {
+      return dvdInventory.get(index).getCost();
+   }
+
+/**
     * Adds a DVD to the inventory. Note that this is private, as DVDs
     * are only added from the corresponding lists.
     * 
     * @param newDVD is the DVD to be added to the inventory
     */
-   private void addDVD(DVD newDVD) {
-      dvdInventory.put(newDVD.getId(), newDVD);
+   public void addDVD(DVD newDVD) {
+      dvdInventory.add(newDVD);
    }
 
-   /**
+   public boolean matchIdToName(DVD dvd) {
+      for (DVD listDVD : dvdInventory)
+         if (listDVD.getId() == dvd.getId())
+            if (listDVD.getName().equalsIgnoreCase(dvd.getName()))
+               return true;
+
+      return false;   
+   }
+
+   public boolean containsName(String dvdName) {
+      for (DVD dvd : dvdInventory)
+         if (dvd.getName().equalsIgnoreCase(dvdName))
+            return true;
+      return false;
+   }
+
+/**
     * This method checks the quantity of the DVD. This is only performed
     * when a customer is buying a DVD, as only one can be rented at a time.
     * 
@@ -45,17 +84,10 @@ public class Inventory {
     */
    public boolean checkQuantity(int dvdId, int desiredQuantity) {
 
-      if ((dvdInventory.get(dvdId).getQuantity() - desiredQuantity) >= 0)
+      if ((dvdInventory.get(dvdId - 1).getQuantity() - desiredQuantity) >= 0)
          return true;
 
       return false;
-   }
-
-   /**
-    * @param dvdId is the unique id of the DVD
-    */
-   public double getCost(int dvdId) {
-      return dvdInventory.get(dvdId).getCost();
    }
 
    /**
@@ -74,18 +106,21 @@ public class Inventory {
          currentDVD = stockList.getStockItem(i);
 
          // If DVD does not exist in list assign id and add
-         if (!dvdInventory.containsValue(currentDVD)) {
+         if (currentDVD.getId() == 0) {
             currentDVD.setId(++numOfDVD);
             addDVD(currentDVD);
             continue;
          }
 
-         newQuantity = dvdInventory.get(currentDVD.getId()).getQuantity()
+         newQuantity = dvdInventory.get(currentDVD.getId() - 1).getQuantity()
                + currentDVD.getQuantity();
 
-         dvdInventory.get(currentDVD.getId()).setQuantity(newQuantity);
+         dvdInventory.get(currentDVD.getId() - 1).setQuantity(newQuantity);
 
-      }// end for loop
+      }// end for-loop
+      System.out.println("update inventory with stock list : ");
+      printInventory();
+      System.out.println("");
    }
 
    /**
@@ -95,7 +130,7 @@ public class Inventory {
     * @param dvdSaleList is the list of DVDs which are to be added to the
     *        inventory
     */
-   public void update(DVDSaleList dvdSaleList) {
+   public void update(SaleList dvdSaleList) {
       int newQuantity;
       SaleItem currentItem;
 
@@ -103,13 +138,16 @@ public class Inventory {
       for (int i = 0; i < dvdSaleList.size(); i++) {
          currentItem = dvdSaleList.getSaleItem(i);
 
-         newQuantity = dvdInventory.get(currentItem.getId()).getQuantity()
+         newQuantity = dvdInventory.get(currentItem.getId() - 1).getQuantity()
                - currentItem.getQuantity();
 
          // Update quantity of item
-         dvdInventory.get(currentItem.getId()).setQuantity(newQuantity);
+         dvdInventory.get(currentItem.getId() - 1).setQuantity(newQuantity);
 
-      }
+      }//end for-loop
+      System.out.println("update inventory with dvd sale list : ");
+      printInventory();
+      System.out.println("");
    }
 
    /**
@@ -127,9 +165,17 @@ public class Inventory {
          returnID = returnList.getReturnDVDId(i);
 
          // We assume only one DVD can be rented at a time
-         newQuantity = dvdInventory.get(returnID).getQuantity() - 1;
-         dvdInventory.get(returnID).setQuantity(newQuantity);
-      }
+         newQuantity = dvdInventory.get(returnID - 1).getQuantity() + 1;
+         dvdInventory.get(returnID - 1).setQuantity(newQuantity);
+      }//end for-loop
+      System.out.println("update inventory with return list : ");
+      printInventory();
+      System.out.println("");
+   }
+
+   public void printInventory() {
+      for (int i = 0; i < dvdInventory.size(); i++)
+         System.out.println("id: " + dvdInventory.get(i).getId() + dvdInventory.get(i));
    }
 
 }

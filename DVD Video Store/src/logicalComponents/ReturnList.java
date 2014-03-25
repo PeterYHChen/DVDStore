@@ -13,34 +13,43 @@ package logicalComponents;
 import java.util.ArrayList;
 
 public class ReturnList {
-   private ArrayList<Integer> idList;
+	private ArrayList<Integer> idList;
 
-   /**
-    * Constructor
-    * @return reference to DVDSaleList item
-    */
-   public ReturnList() {
-      idList = new ArrayList<Integer>();
-   }
+	/**
+	 * Constructor
+	 * 
+	 * @return reference to DVDSaleList item
+	 */
+	public ReturnList() {
+		idList = new ArrayList<Integer>();
+	}
 
-   /**
-    * @return size of RentalList
-    */
-   public int size() {
-      return idList.size();
-   }
+	/**
+	 * @return size of RentalList
+	 */
+	public int size() {
+		return idList.size();
+	}
 
-   /**
-    * @return DVD indicated by its id
-    */
-   public int getReturnDVDId(int index) {
-      return idList.get(index);
-   }
+	/**
+	 * @return DVD indicated by its id
+	 */
+	public int getReturnDVDId(int index) {
+		return idList.get(index);
+	}
 
-   /**
-    * @param dvdId is the unique id assigned to the DVD
-    */
-   public void addReturnDVD(int dvdId) {
-      idList.add(dvdId);
-   }
+	/**
+	 * @param dvdId
+	 *            is the unique id assigned to the DVD
+	 */
+	public void addReturnDVD(int dvdId) {
+		idList.add(dvdId);
+	}
+
+	public boolean checkSaleItemDuplicate(int DVDId) {
+		for (int id : idList)
+			if (id == DVDId)
+				return true;
+		return false;
+	}
 }

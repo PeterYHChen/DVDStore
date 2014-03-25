@@ -9,13 +9,25 @@
 
 package logicalComponents;
 
+import java.text.NumberFormat;
+
 public class DVD {
    private int id;
+   private String name;
    private int quantity;
    private double cost;
-   private String name;
+   private NumberFormat dollarFormatter;
 
-   /**
+   // Java will automatically initialize all variables to zero or empty string
+   public DVD() {
+      dollarFormatter = NumberFormat.getCurrencyInstance();
+      id = 0;
+      name = "";
+      quantity = 0;
+      cost = 0.0;
+   }
+
+/**
     * Constructor
     * @param dvdId is the unique id of the DVD
     * @param dvdName is the name of the DVD
@@ -23,11 +35,20 @@ public class DVD {
     * @param dvdCost is the cost of the DVD
     * @return reference to a DVD object
     */
-   public DVD(int dvdId, String dvdName, int dvdQuantity, double dvdCost) {
-      id = dvdId;
-      name = dvdName;
-      quantity = dvdQuantity;
-      cost = dvdCost;
+   public DVD(DVD dvd) {
+      dollarFormatter = NumberFormat.getCurrencyInstance();
+      id = dvd.getId();
+      name = dvd.getName();
+      quantity = dvd.getQuantity();
+      cost = dvd.getCost();
+   }
+
+   public DVD(int DVDId, String DVDName, int DVDQuantity, double DVDCost) {
+      dollarFormatter = NumberFormat.getCurrencyInstance();
+      id = DVDId;
+      name = DVDName;
+      quantity = DVDQuantity;
+      cost = DVDCost;
    }
 
    /**
@@ -54,8 +75,8 @@ public class DVD {
    /**
     * @param quantity the quantity to set
     */
-   public void setQuantity(int quantity) {
-      this.quantity = quantity;
+   public void setQuantity(int newQuantity) {
+      quantity = newQuantity;
    }
 
    /**
@@ -86,4 +107,8 @@ public class DVD {
       this.name = name;
    }
 
+   public String toString() {
+      return "Name: \t" + name + "\n# of: \t" + quantity + "\nCost: \t"
+            + dollarFormatter.format(cost) + "\n\n";
+   }
 }
